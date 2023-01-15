@@ -2,6 +2,8 @@ package assert
 
 import (
 	"testing"
+
+	"github.com/go-msvc/logger"
 )
 
 func String(t *testing.T, title string, exp, got string) {
@@ -9,14 +11,14 @@ func String(t *testing.T, title string, exp, got string) {
 		t.Errorf("Expected: (len=%d) %s", len(exp), exp)
 		t.Errorf("Got:      (len=%d) %s", len(got), got)
 		if len(exp) != len(got) {
-			t.Fatalf("%s got len %d != expected %d", title, len(got), len(exp))
+			t.Fatalf("%V: %s got len %d != expected %d", logger.GetCaller(2), title, len(got), len(exp))
 		}
 		for i := 0; i < len(exp); i++ {
 			if exp[i] != got[i] {
 				t.Errorf("Got:      (len=%d) %s", len(got), got)
-				t.Fatalf("%s different at [%d]: got=\"%s\" != expected=\"%s\"", title, i, got, exp)
+				t.Fatalf("%V: %s different at [%d]: got=\"%s\" != expected=\"%s\"", logger.GetCaller(2), title, i, got, exp)
 			}
 		}
-		t.Fatalf("%s not the same", title) //not expected to get here...
+		t.Fatalf("%V: %s not the same", logger.GetCaller(2), title) //not expected to get here...
 	}
 }
